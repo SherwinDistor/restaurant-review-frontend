@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 export default function Nav() {
 	return (
 		<>
-			<header className=''>
-				<nav className='w-screen h-18 pt-2 px-2 backdrop-blur-lg bg-gray/70 flex justify-evenly fixed bottom-0 sm:top-0'>
+			<header>
+				<nav className='z-100 w-screen h-18 pt-2 px-2 backdrop-blur-lg bg-gray/70 flex justify-evenly fixed bottom-0 sm:top-0'>
 					<Link to='/' className='text-xs flex flex-col items-center w-full'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
