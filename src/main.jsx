@@ -7,12 +7,18 @@ import Profile from './components/Profile';
 import getAllRestaurants from './loaders/getAllRestaurants';
 import Restaurant from './components/Restaurant';
 import getRestaurant from './loaders/getRestaurant';
+import Details from './components/Details';
+import Search from './components/Search';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Home />,
 		loader: getAllRestaurants,
+	},
+	{
+		path: '/search',
+		element: <Search />,
 	},
 	{
 		path: '/profile',
@@ -22,6 +28,12 @@ const router = createBrowserRouter([
 		path: '/restaurant/:restaurantId',
 		element: <Restaurant />,
 		loader: getRestaurant,
+		children: [
+			{
+				path: 'details',
+				element: <Details />,
+			},
+		],
 	},
 ]);
 

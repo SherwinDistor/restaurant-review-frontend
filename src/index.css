@@ -2,6 +2,27 @@
 
 @theme {
 	--color-gray: #1c1c1c;
+
+	--animate-slideInUp: slideInUp 2s ease-out;
+	--animate-slideOutDown: slideOutDown 2s ease-out;
+
+	@keyframes slideInUp {
+		from {
+			transform: translateY(100%);
+		}
+		to {
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes slideOutDown {
+		from {
+			transform: translateY(-100%);
+		}
+		to {
+			transform: translateY(0);
+		}
+	}
 }
 
 :root {
