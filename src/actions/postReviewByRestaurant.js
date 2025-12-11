@@ -1,13 +1,14 @@
+import { redirect } from 'react-router';
 import CreateReviewDto from '../domain/CreateReviewDto';
 import BASE_URL from '../loaders/baseUrl';
 
 export default async function postReviewByRestaurant({ request, params }) {
-	const data = await request.formData();
+	const formData = await request.formData();
 
 	const review = new CreateReviewDto(
-		data.get('title'),
-		data.get('content'),
-		data.get('rating')
+		formData.get('title'),
+		formData.get('content'),
+		formData.get('rating')
 	);
 
 	try {
@@ -19,6 +20,9 @@ export default async function postReviewByRestaurant({ request, params }) {
 			body: JSON.stringify(review),
 		});
 	} catch (error) {
+		// TODO: return an error object to use in the frontend to let the user know the validation, useActionData() on the review page
 		console.log(error);
 	}
+
+	return redirect('/');
 }

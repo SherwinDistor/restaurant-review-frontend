@@ -32,12 +32,6 @@ const router = createBrowserRouter([
 		path: '/restaurant/:restaurantId',
 		element: <Restaurant />,
 		loader: getRestaurant,
-		children: [
-			{
-				path: 'details',
-				element: <Details />,
-			},
-		],
 	},
 	{
 		path: '/review/:restaurantId',

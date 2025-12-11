@@ -2,10 +2,12 @@ import { Link, Outlet, useLoaderData } from 'react-router';
 import Nav from './Nav';
 import { useState } from 'react';
 import StarRating from './StarRating';
+import Details from './Details';
 
 export default function Restaurant() {
 	const data = useLoaderData();
 	const [restaurant, setRestaurant] = useState({ ...data });
+	const [isOpen, setIsOpen] = useState(false);
 
 	console.log(restaurant);
 
@@ -13,7 +15,16 @@ export default function Restaurant() {
 		<>
 			<Nav />
 			<section className='h-96 w-full'>
-				<div className='bg-white w-full h-full'></div>
+				<Link to='/' className='absolute top-5 left-5'>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						viewBox='0 0 640 640'
+						className='h-9 w-9 fill-white bg-gray/70 rounded-full px-2 backdrop-blur-lg'
+					>
+						<path d='M41.4 297.4C28.9 309.9 28.9 330.2 41.4 342.7L169.4 470.7C181.9 483.2 202.2 483.2 214.7 470.7C227.2 458.2 227.2 437.9 214.7 425.4L141.3 352L576 352C593.7 352 608 337.7 608 320C608 302.3 593.7 288 576 288L141.3 288L214.7 214.6C227.2 202.1 227.2 181.8 214.7 169.3C202.2 156.8 181.9 156.8 169.4 169.3L41.4 297.3z' />
+					</svg>
+				</Link>
+				<div className='bg-red-500 w-full h-full'></div>
 			</section>
 			<section className='px-4'>
 				<div className='flex justify-between'>
@@ -44,9 +55,10 @@ export default function Restaurant() {
 						</div>
 					</div>
 					<div className='self-center'>
-						<Link
-							to='./details'
+						<button
+							// to='./details'
 							className='flex items-center bg-amber-500 pl-2 py-1 rounded-lg'
+							onClick={() => setIsOpen(!isOpen)}
 						>
 							<span>Details</span>
 							<svg
@@ -56,8 +68,17 @@ export default function Restaurant() {
 							>
 								<path d='M439.1 297.4C451.6 309.9 451.6 330.2 439.1 342.7L279.1 502.7C266.6 515.2 246.3 515.2 233.8 502.7C221.3 490.2 221.3 469.9 233.8 457.4L371.2 320L233.9 182.6C221.4 170.1 221.4 149.8 233.9 137.3C246.4 124.8 266.7 124.8 279.2 137.3L439.2 297.3z' />
 							</svg>
-						</Link>
-						<Outlet />
+						</button>
+						{isOpen ? (
+							<Details
+								isOpen={isOpen}
+								setIsOpen={setIsOpen}
+								restaurant={restaurant}
+							/>
+						) : (
+							''
+						)}
+						{/* <Outlet isOpen={isOpen} /> */}
 					</div>
 				</div>
 			</section>
