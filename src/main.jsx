@@ -9,11 +9,15 @@ import Restaurant from './components/Restaurant';
 import getRestaurant from './loaders/getRestaurant';
 import Details from './components/Details';
 import Search from './components/Search';
+import WriteReview from './components/WriteReview';
+import NotFound from './components/NotFound';
+import postReviewByRestaurant from './actions/postReviewByRestaurant';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Home />,
+		errorElement: <NotFound />,
 		loader: getAllRestaurants,
 	},
 	{
@@ -34,6 +38,11 @@ const router = createBrowserRouter([
 				element: <Details />,
 			},
 		],
+	},
+	{
+		path: '/review/:restaurantId',
+		element: <WriteReview />,
+		action: postReviewByRestaurant,
 	},
 ]);
 

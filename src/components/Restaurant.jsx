@@ -66,9 +66,12 @@ export default function Restaurant() {
 					<h1>Reviews</h1>
 					<StarRating rating={restaurant.averageRating} />
 					<p>5 Total Reviews</p>
-					<button className='border border-white rounded-full px-3 py-1 hover:bg-gray mt-1'>
+					<Link
+						to={`/review/${restaurant.id}`}
+						className='border border-white rounded-full px-3 py-1 hover:bg-gray mt-1'
+					>
 						Write a review
-					</button>
+					</Link>
 				</div>
 			</section>
 			<section className='border-t border-white mt-6'>
