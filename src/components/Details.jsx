@@ -8,7 +8,7 @@ export default function Details({ isOpen, setIsOpen, restaurant }) {
 		setTrans(false);
 		setTimeout(() => {
 			setIsOpen(false);
-		}, 700);
+		}, 500);
 	}
 
 	return (

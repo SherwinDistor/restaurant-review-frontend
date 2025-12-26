@@ -12,11 +12,13 @@ import Search from './components/Search';
 import WriteReview from './components/WriteReview';
 import NotFound from './components/NotFound';
 import postReviewByRestaurant from './actions/postReviewByRestaurant';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Home />,
+		element: <SignUp />,
 		errorElement: <NotFound />,
 		loader: getAllRestaurants,
 	},

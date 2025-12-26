@@ -78,14 +78,13 @@ export default function Restaurant() {
 						) : (
 							''
 						)}
-						{/* <Outlet isOpen={isOpen} /> */}
 					</div>
 				</div>
 			</section>
 			<section className='mt-5'>
 				<div className='flex flex-col items-center gap-1'>
 					<h1>Reviews</h1>
-					<StarRating rating={restaurant.averageRating} />
+					<StarRating rating={restaurant.averageRating} size='medium' />
 					<p>5 Total Reviews</p>
 					<Link
 						to={`/review/${restaurant.id}`}
@@ -97,6 +96,26 @@ export default function Restaurant() {
 			</section>
 			<section className='border-t border-white mt-6'>
 				<button>Sort</button>
+				<div>
+					{restaurant.reviews.map((review) => {
+						const date = new Date(review.updatedAt);
+						const formattedDate = date.toLocaleDateString('en-US', {
+							year: 'numeric',
+							month: 'long',
+						});
+
+						return (
+							<div key={review.id}>
+								<div className='flex justify-between'>
+									<h2>{review.title}</h2>
+									<span>{formattedDate}</span>
+								</div>
+								<StarRating rating={review.rating} size='small' />
+								<p>{review.content}</p>
+							</div>
+						);
+					})}
+				</div>
 			</section>
 		</>
 	);
