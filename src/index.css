@@ -70,8 +70,16 @@ button:focus-visible {
 	outline: 4px auto -webkit-focus-ring-color;
 }
 
+button:disabled {
+	background-color: #8d8d8d;
+}
+
 input {
 	background-color: white;
+}
+
+input:focus {
+	outline: none;
 }
 
 textarea {

@@ -56,7 +56,6 @@ export default function Restaurant() {
 					</div>
 					<div className='self-center'>
 						<button
-							// to='./details'
 							className='flex items-center bg-amber-500 pl-2 py-1 rounded-lg'
 							onClick={() => setIsOpen(!isOpen)}
 						>

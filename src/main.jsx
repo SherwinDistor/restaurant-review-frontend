@@ -14,13 +14,19 @@ import NotFound from './components/NotFound';
 import postReviewByRestaurant from './actions/postReviewByRestaurant';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import registerUser from './actions/registerUser';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <SignUp />,
+		element: <Home />,
 		errorElement: <NotFound />,
 		loader: getAllRestaurants,
+	},
+	{
+		path: '/signup',
+		element: <SignUp />,
+		action: registerUser,
 	},
 	{
 		path: '/search',
