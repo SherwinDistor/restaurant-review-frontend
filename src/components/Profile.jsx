@@ -7,21 +7,9 @@ import { useNavigate } from 'react-router';
 export default function Profile() {
 	const { auth, setAuth } = useContext(AuthContext);
 
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (!auth) {
-			navigate('/login');
-		}
-	}, [auth, navigate]);
-
 	function logoutUser() {
 		// additional logic if saving auth details in local storage
 		setAuth(null);
-	}
-
-	if (!auth) {
-		return null;
 	}
 
 	return (

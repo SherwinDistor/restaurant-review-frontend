@@ -1,5 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { Form, Link, useActionData, useNavigate } from 'react-router';
+import {
+	Form,
+	Link,
+	useActionData,
+	useLocation,
+	useNavigate,
+} from 'react-router';
 import { AuthContext } from '../context/AuthContext';
 import Nav from './Nav';
 
@@ -8,13 +14,16 @@ export default function Login() {
 	const formLoginResponse = useActionData();
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const location = useLocation();
+	const [from] = useState(location.state?.from?.pathname || '/');
 
 	useEffect(() => {
-		if (formLoginResponse && formLoginResponse.jwt) {
+		if (formLoginResponse && formLoginResponse?.userData) {
 			console.log('back in Login useEffect');
 
-			setAuth(formLoginResponse);
-			navigate('/profile');
+			setAuth(formLoginResponse.userData);
+
+			navigate(formLoginResponse.redirectTo, { replace: true });
 		}
 	}, [setAuth, formLoginResponse, navigate]);
 
@@ -32,6 +41,7 @@ export default function Login() {
 					action='/login'
 					className='flex flex-col text-black gap-5'
 				>
+					<input type='hidden' name='redirectTo' value={from} />
 					<div>
 						<label htmlFor='username' className='hidden'>
 							Email

@@ -17,6 +17,7 @@ import SignUp from './components/SignUp';
 import registerUser from './actions/registerUser';
 import AuthProvider from './context/AuthProvider';
 import loginUser from './actions/loginUser';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter([
 	{
@@ -40,18 +41,24 @@ const router = createBrowserRouter([
 		element: <Search />,
 	},
 	{
-		path: '/profile',
-		element: <Profile />,
-	},
-	{
 		path: '/restaurant/:restaurantId',
 		element: <Restaurant />,
 		loader: getRestaurant,
 	},
 	{
-		path: '/review/:restaurantId',
-		element: <WriteReview />,
-		action: postReviewByRestaurant,
+		path: '/',
+		element: <ProtectedRoute />,
+		children: [
+			{
+				path: 'profile',
+				element: <Profile />,
+			},
+			{
+				path: 'review/:restaurantId',
+				element: <WriteReview />,
+				action: postReviewByRestaurant,
+			},
+		],
 	},
 ]);
 

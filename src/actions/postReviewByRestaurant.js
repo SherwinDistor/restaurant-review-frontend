@@ -4,6 +4,9 @@ import BASE_URL from '../loaders/baseUrl';
 
 export default async function postReviewByRestaurant({ request, params }) {
 	const formData = await request.formData();
+	const token = formData.get('token');
+
+	console.log(token);
 
 	const review = new CreateReviewDto(
 		formData.get('title'),
@@ -12,10 +15,12 @@ export default async function postReviewByRestaurant({ request, params }) {
 	);
 
 	try {
+		// Add authentication to send to POST
 		await fetch(`${BASE_URL}/api/v1/review/restaurant/${params.restaurantId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify(review),
 		});

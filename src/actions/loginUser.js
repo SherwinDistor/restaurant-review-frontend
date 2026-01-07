@@ -7,6 +7,8 @@ export default async function loginUser({ request }) {
 
 	console.log(formData);
 
+	const redirectTo = formData.get('redirectTo');
+
 	const loginRequest = new LoginRequest(
 		formData.get('username'),
 		formData.get('password')
@@ -24,7 +26,7 @@ export default async function loginUser({ request }) {
 		const data = await response.json();
 
 		console.log(data);
-		return data;
+		return { userData: data, redirectTo };
 	} catch (error) {
 		console.log(error);
 

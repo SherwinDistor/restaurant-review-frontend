@@ -1,10 +1,11 @@
 import { useParams, Form, Link } from 'react-router';
 import Nav from './Nav';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function WriteReview() {
 	const params = useParams();
-
-	console.log(params);
+	const { auth } = useContext(AuthContext);
 
 	return (
 		<>
@@ -26,6 +27,7 @@ export default function WriteReview() {
 					action={`/review/${params.restaurantId}`}
 					className='flex flex-col gap-3 text-black w-60'
 				>
+					<input type='hidden' name='token' value={auth?.jwt} />
 					<label className='flex flex-col'>
 						<span className='text-white font-medium'>Add a title</span>
 						<input type='text' name='title' className='rounded-lg p-1' />
