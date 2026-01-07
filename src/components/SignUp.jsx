@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Form, Link } from 'react-router';
+import { Form, Link, useActionData } from 'react-router';
 import Nav from './Nav';
 
 const EMAIL_REGEX =
@@ -7,6 +7,8 @@ const EMAIL_REGEX =
 const PASSWORD_REGEX = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
 
 export default function SignUp() {
+	const formRequestResponse = useActionData();
+
 	const firstNameRef = useRef();
 	const errorRef = useRef();
 
@@ -28,9 +30,6 @@ export default function SignUp() {
 		password === confirmPassword && confirmPassword.length > 0;
 	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
-	const [errorMessage, setErrorMessage] = useState('');
-	const [success, setSuccess] = useState(false);
-
 	useEffect(() => {
 		firstNameRef.current.focus();
 	}, []);
@@ -39,6 +38,11 @@ export default function SignUp() {
 		<>
 			<Nav />
 			<section className='h-screen w-screen flex flex-col justify-center items-center'>
+				{formRequestResponse && formRequestResponse.message && (
+					<p className='absolute top-30 bg-black p-4 rounded-lg max-w-60'>
+						{formRequestResponse.message}
+					</p>
+				)}
 				<Form
 					method='post'
 					action='/signup'

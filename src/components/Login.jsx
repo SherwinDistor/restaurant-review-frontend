@@ -1,18 +1,44 @@
-import { useState } from 'react';
-import { Link } from 'react-router';
+import { useContext, useEffect, useState } from 'react';
+import { Form, Link, useActionData, useNavigate } from 'react-router';
+import { AuthContext } from '../context/AuthContext';
+import Nav from './Nav';
 
 export default function Login() {
+	const { setAuth } = useContext(AuthContext);
+	const formLoginResponse = useActionData();
 	const [showPassword, setShowPassword] = useState(false);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (formLoginResponse && formLoginResponse.jwt) {
+			console.log('back in Login useEffect');
+
+			setAuth(formLoginResponse);
+			navigate('/profile');
+		}
+	}, [setAuth, formLoginResponse, navigate]);
 
 	return (
 		<>
+			<Nav />
 			<section className='h-screen w-screen flex justify-center items-center'>
-				<form action='' className='flex flex-col text-black gap-5'>
+				{formLoginResponse && formLoginResponse.message && (
+					<p className='absolute top-30 bg-black p-4 rounded-lg max-w-60'>
+						{formLoginResponse.message}
+					</p>
+				)}
+				<Form
+					method='post'
+					action='/login'
+					className='flex flex-col text-black gap-5'
+				>
 					<div>
-						<label htmlFor='' className='hidden'>
+						<label htmlFor='username' className='hidden'>
 							Email
 						</label>
 						<input
+							id='username'
+							name='username'
 							type='email'
 							placeholder='Username or email'
 							className='px-2 py-2 rounded-lg'
@@ -20,13 +46,13 @@ export default function Login() {
 					</div>
 
 					<div className='px-2 py-2 rounded-lg bg-white flex'>
-						<label htmlFor='' className='hidden'>
+						<label htmlFor='password' className='hidden'>
 							Password
 						</label>
 						<input
 							type={showPassword ? 'text' : 'password'}
-							name=''
-							id=''
+							name='password'
+							id='password'
 							placeholder='Password'
 							className='w-48'
 						/>
@@ -57,10 +83,13 @@ export default function Login() {
 						</button>
 					</div>
 
-					<button className='bg-amber-500 text-white rounded-full py-1'>
+					<button
+						type='submit'
+						className='bg-amber-500 text-white rounded-full py-1'
+					>
 						Log in
 					</button>
-				</form>
+				</Form>
 
 				<Link
 					to='/signup'

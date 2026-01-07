@@ -15,6 +15,8 @@ import postReviewByRestaurant from './actions/postReviewByRestaurant';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import registerUser from './actions/registerUser';
+import AuthProvider from './context/AuthProvider';
+import loginUser from './actions/loginUser';
 
 const router = createBrowserRouter([
 	{
@@ -27,6 +29,11 @@ const router = createBrowserRouter([
 		path: '/signup',
 		element: <SignUp />,
 		action: registerUser,
+	},
+	{
+		path: '/login',
+		element: <Login />,
+		action: loginUser,
 	},
 	{
 		path: '/search',
@@ -50,6 +57,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
-		<RouterProvider router={router} />
+		<AuthProvider>
+			<RouterProvider router={router} />
+		</AuthProvider>
 	</StrictMode>
 );
