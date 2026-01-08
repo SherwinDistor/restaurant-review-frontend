@@ -44,12 +44,12 @@ export default function Login() {
 					<input type='hidden' name='redirectTo' value={from} />
 					<div>
 						<label htmlFor='username' className='hidden'>
-							Email
+							Username or email
 						</label>
 						<input
 							id='username'
 							name='username'
-							type='email'
+							type='text'
 							placeholder='Username or email'
 							className='px-2 py-2 rounded-lg'
 						/>

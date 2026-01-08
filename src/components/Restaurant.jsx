@@ -1,21 +1,29 @@
 import { Link, Outlet, useLoaderData } from 'react-router';
 import Nav from './Nav';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import StarRating from './StarRating';
 import Details from './Details';
+import { AuthContext } from '../context/AuthContext';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Restaurant() {
 	const data = useLoaderData();
-	const [restaurant, setRestaurant] = useState({ ...data });
+	const [restaurant] = useState({ ...data });
 	const [isOpen, setIsOpen] = useState(false);
+	const { auth } = useContext(AuthContext);
+	let decoded;
+
+	if (auth) {
+		decoded = jwtDecode(auth.jwt);
+	}
 
 	console.log(restaurant);
 
 	return (
 		<>
 			<Nav />
-			<section className='h-96 w-full'>
-				<Link to='/' className='absolute top-5 left-5'>
+			<section className='h-96 w-full sm:px-30 sm:mt-20'>
+				<Link to='/' className='absolute top-5 left-5 sm:top-30 sm:left-40'>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
 						viewBox='0 0 640 640'
@@ -24,9 +32,17 @@ export default function Restaurant() {
 						<path d='M41.4 297.4C28.9 309.9 28.9 330.2 41.4 342.7L169.4 470.7C181.9 483.2 202.2 483.2 214.7 470.7C227.2 458.2 227.2 437.9 214.7 425.4L141.3 352L576 352C593.7 352 608 337.7 608 320C608 302.3 593.7 288 576 288L141.3 288L214.7 214.6C227.2 202.1 227.2 181.8 214.7 169.3C202.2 156.8 181.9 156.8 169.4 169.3L41.4 297.3z' />
 					</svg>
 				</Link>
+				{decoded?.roles.startsWith('ADMIN') && (
+					<Link
+						to='/'
+						className='absolute top-5 right-5 bg-gray/70 rounded-full px-2 py-1 backdrop-blur-lg sm:top-30 sm:right-40'
+					>
+						Edit
+					</Link>
+				)}
 				<div className='bg-red-500 w-full h-full'></div>
 			</section>
-			<section className='px-4'>
+			<section className='px-4 sm:px-30'>
 				<div className='flex justify-between'>
 					<div>
 						<h1 className='py-1'>{restaurant.name}</h1>

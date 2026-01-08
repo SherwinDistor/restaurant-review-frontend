@@ -1,15 +1,24 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Navigate, Outlet, useLocation } from 'react-router';
+import { jwtDecode } from 'jwt-decode';
+import NotFound from './NotFound';
 
-export default function ProtectedRoute() {
+export default function ProtectedRoute({ allowedRoles }) {
 	const { auth } = useContext(AuthContext);
 	const location = useLocation();
+	let decoded;
 
-	console.log('Protected route location', location);
+	if (auth) {
+		decoded = jwtDecode(auth.jwt);
+	}
+
+	if (auth && allowedRoles.find((role) => decoded.roles.includes(role))) {
+		return <Outlet />;
+	}
 
 	return auth ? (
-		<Outlet />
+		<NotFound />
 	) : (
 		<Navigate to='/login' state={{ from: location }} replace />
 	);

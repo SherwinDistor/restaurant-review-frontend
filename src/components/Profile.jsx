@@ -1,11 +1,18 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import Nav from './Nav';
-import Login from './Login';
 import { AuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router';
+import { jwtDecode } from 'jwt-decode';
+import { Link } from 'react-router';
 
 export default function Profile() {
 	const { auth, setAuth } = useContext(AuthContext);
+	let decoded;
+
+	if (auth) {
+		decoded = jwtDecode(auth.jwt);
+	}
+
+	console.log(decoded);
 
 	function logoutUser() {
 		// additional logic if saving auth details in local storage
@@ -15,7 +22,17 @@ export default function Profile() {
 	return (
 		<>
 			<Nav />
-			<section className='flex justify-end pr-4 pt-4'>
+			<section className='flex justify-between px-4 pt-4 sm:mt-20'>
+				{decoded?.roles.startsWith('ADMIN') ? (
+					<Link
+						to='/restaurant/add'
+						className='bg-amber-500 rounded-lg px-2 py-1'
+					>
+						Add restaurant
+					</Link>
+				) : (
+					<button></button>
+				)}
 				<button
 					onClick={logoutUser}
 					className='bg-amber-500 rounded-lg px-2 py-1'

@@ -18,6 +18,7 @@ import registerUser from './actions/registerUser';
 import AuthProvider from './context/AuthProvider';
 import loginUser from './actions/loginUser';
 import ProtectedRoute from './components/ProtectedRoute';
+import AddRestaurant from './components/AddRestaurant';
 
 const router = createBrowserRouter([
 	{
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/',
-		element: <ProtectedRoute />,
+		element: <ProtectedRoute allowedRoles={['USER', 'ADMIN']} />,
 		children: [
 			{
 				path: 'profile',
@@ -57,6 +58,16 @@ const router = createBrowserRouter([
 				path: 'review/:restaurantId',
 				element: <WriteReview />,
 				action: postReviewByRestaurant,
+			},
+		],
+	},
+	{
+		path: '/',
+		element: <ProtectedRoute allowedRoles={['ADMIN']} />,
+		children: [
+			{
+				path: '/restaurant/add',
+				element: <AddRestaurant />,
 			},
 		],
 	},
