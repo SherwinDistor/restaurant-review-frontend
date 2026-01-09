@@ -1,12 +1,9 @@
 import { Link, useLoaderData } from 'react-router';
-import Restaurant from '../domain/restaurant';
 import Nav from './Nav';
-import { useState } from 'react';
 import BASE_URL from '../loaders/baseUrl';
 
 export default function Home() {
-	const data = useLoaderData();
-	const [restaurantData, setRestaurantData] = useState([...data]);
+	const restaurantData = useLoaderData();
 
 	return (
 		<>

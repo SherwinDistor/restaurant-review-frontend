@@ -19,6 +19,7 @@ import AuthProvider from './context/AuthProvider';
 import loginUser from './actions/loginUser';
 import ProtectedRoute from './components/ProtectedRoute';
 import AddRestaurant from './components/AddRestaurant';
+import createNewRestaurant from './actions/createNewRestaurant';
 
 const router = createBrowserRouter([
 	{
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
 			{
 				path: '/restaurant/add',
 				element: <AddRestaurant />,
+				action: createNewRestaurant,
 			},
 		],
 	},

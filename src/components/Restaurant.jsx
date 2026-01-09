@@ -5,10 +5,10 @@ import StarRating from './StarRating';
 import Details from './Details';
 import { AuthContext } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import BASE_URL from '../loaders/baseUrl';
 
 export default function Restaurant() {
-	const data = useLoaderData();
-	const [restaurant] = useState({ ...data });
+	const restaurant = useLoaderData();
 	const [isOpen, setIsOpen] = useState(false);
 	const { auth } = useContext(AuthContext);
 	let decoded;
@@ -40,7 +40,16 @@ export default function Restaurant() {
 						Edit
 					</Link>
 				)}
-				<div className='bg-red-500 w-full h-full'></div>
+
+				{restaurant.photos.map((photo) => (
+					<img
+						src={`${BASE_URL}/api/v1/photo/${photo.url}`}
+						alt='img'
+						className='snap-start grow shrink-0 basis-full object-cover w-full h-full'
+						key={photo.id}
+						id={photo.id}
+					/>
+				))}
 			</section>
 			<section className='px-4 sm:px-30'>
 				<div className='flex justify-between'>
