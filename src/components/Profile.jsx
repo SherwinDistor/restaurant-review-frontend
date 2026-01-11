@@ -16,6 +16,7 @@ export default function Profile() {
 
 	function logoutUser() {
 		// additional logic if saving auth details in local storage
+		localStorage.removeItem('userData');
 		setAuth(null);
 	}
 

@@ -25,6 +25,8 @@ export default async function loginUser({ request }) {
 
 		const data = await response.json();
 
+		localStorage.setItem('userData', JSON.stringify(data));
+
 		console.log(data);
 		return { userData: data, redirectTo };
 	} catch (error) {
