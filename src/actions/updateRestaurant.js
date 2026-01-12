@@ -1,11 +1,11 @@
 import Address from '../domain/Address';
 import CreateRestaurantDto from '../domain/CreateRestaurantDto';
+import DAY_OF_WEEK from '../domain/dayOfWeek';
 import OperatingHours from '../domain/OperatingHours';
 import TimeRange from '../domain/TimeRange';
 import BASE_URL from '../loaders/baseUrl';
-import DAY_OF_WEEK from '../domain/dayOfWeek';
 
-export default async function createNewRestaurant({ request }) {
+export default async function updateRestaurant({ request, params }) {
 	const formData = await request.formData();
 
 	console.log(formData);
@@ -55,14 +55,17 @@ export default async function createNewRestaurant({ request }) {
 	imagePayload.append('file', file);
 
 	try {
-		const response = await fetch(`${BASE_URL}/api/v1/restaurant`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify(restaurant),
-		});
+		const response = await fetch(
+			`${BASE_URL}/api/v1/restaurant/${params.restaurantId}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(restaurant),
+			}
+		);
 
 		const data = await response.json();
 		console.log(data);

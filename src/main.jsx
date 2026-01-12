@@ -7,7 +7,7 @@ import Profile from './components/Profile';
 import getAllRestaurants from './loaders/getAllRestaurants';
 import Restaurant from './components/Restaurant';
 import getRestaurant from './loaders/getRestaurant';
-import Details from './components/Details';
+import UpdateRestaurant from './components/UpdateRestaurant';
 import Search from './components/Search';
 import WriteReview from './components/WriteReview';
 import NotFound from './components/NotFound';
@@ -20,6 +20,7 @@ import loginUser from './actions/loginUser';
 import ProtectedRoute from './components/ProtectedRoute';
 import AddRestaurant from './components/AddRestaurant';
 import createNewRestaurant from './actions/createNewRestaurant';
+import updateRestaurant from './actions/updateRestaurant';
 
 const router = createBrowserRouter([
 	{
@@ -67,9 +68,15 @@ const router = createBrowserRouter([
 		element: <ProtectedRoute allowedRoles={['ADMIN']} />,
 		children: [
 			{
-				path: '/restaurant/add',
+				path: 'restaurant/add',
 				element: <AddRestaurant />,
 				action: createNewRestaurant,
+			},
+			{
+				path: 'restaurant/update/:restaurantId',
+				element: <UpdateRestaurant />,
+				loader: getRestaurant,
+				action: updateRestaurant,
 			},
 		],
 	},

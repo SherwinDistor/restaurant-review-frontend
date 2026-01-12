@@ -2,6 +2,7 @@ import { Form, Link } from 'react-router';
 import Nav from './Nav';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import DAY_OF_WEEK from '../domain/dayOfWeek';
 
 export default function AddRestaurant() {
 	const { auth } = useContext(AuthContext);
@@ -30,26 +31,42 @@ export default function AddRestaurant() {
 					<input type='hidden' name='token' value={auth?.jwt} />
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Restaurant Name</span>
-						<input type='text' name='name' className='rounded-lg p-1' />
+						<span className='text-white font-medium'>Restaurant Name *</span>
+						<input
+							type='text'
+							name='name'
+							className='rounded-lg p-1'
+							required
+						/>
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Cuisine Type</span>
-						<input type='text' name='cuisineType' className='rounded-lg p-1' />
+						<span className='text-white font-medium'>Cuisine Type *</span>
+						<input
+							type='text'
+							name='cuisineType'
+							className='rounded-lg p-1'
+							required
+						/>
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Phone Number</span>
-						<input type='text' name='phoneNumber' className='rounded-lg p-1' />
+						<span className='text-white font-medium'>Phone Number *</span>
+						<input
+							type='text'
+							name='phoneNumber'
+							className='rounded-lg p-1'
+							required
+						/>
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Street Address</span>
+						<span className='text-white font-medium'>Street Address *</span>
 						<input
 							type='text'
 							name='streetAddress'
 							className='rounded-lg p-1'
+							required
 						/>
 					</label>
 
@@ -59,139 +76,69 @@ export default function AddRestaurant() {
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>City</span>
-						<input type='text' name='city' className='rounded-lg p-1' />
-					</label>
-
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>State</span>
-						<input type='text' name='state' className='rounded-lg p-1' />
-					</label>
-
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Zip Code</span>
-						<input type='text' name='zipCode' className='rounded-lg p-1' />
-					</label>
-
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Country</span>
-						<input type='text' name='country' className='rounded-lg p-1' />
-					</label>
-
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Monday Hours</span>
+						<span className='text-white font-medium'>City *</span>
 						<input
-							type='time'
-							name='mondayOpeningTime'
+							type='text'
+							name='city'
 							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='mondayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
+							required
 						/>
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Tuesday Hours</span>
+						<span className='text-white font-medium'>State *</span>
 						<input
-							type='time'
-							name='tuesdayOpeningTime'
+							type='text'
+							name='state'
 							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='tuesdayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
+							required
 						/>
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Wednesday Hours</span>
+						<span className='text-white font-medium'>Zip Code *</span>
 						<input
-							type='time'
-							name='wednesdayOpeningTime'
+							type='text'
+							name='zipCode'
 							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='wednesdayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
+							required
 						/>
 					</label>
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Thursday Hours</span>
+						<span className='text-white font-medium'>Country *</span>
 						<input
-							type='time'
-							name='thursdayOpeningTime'
+							type='text'
+							name='country'
 							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='thursdayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
+							required
 						/>
 					</label>
 
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Friday Hours</span>
-						<input
-							type='time'
-							name='fridayOpeningTime'
-							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='fridayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
-						/>
-					</label>
+					{DAY_OF_WEEK.map((day) => {
+						const dayLower = day.toLowerCase();
+
+						return (
+							<fieldset key={dayLower}>
+								<label className='flex flex-col'>
+									<span className='text-white font-medium capitalize'>{`${dayLower} Hours`}</span>
+									<input
+										type='time'
+										name={`${dayLower}OpeningTime`}
+										className='rounded-lg p-1 mb-2'
+									/>
+									<input
+										type='time'
+										name={`${dayLower}ClosingTime`}
+										className='rounded-lg p-1'
+									/>
+								</label>
+							</fieldset>
+						);
+					})}
 
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Saturday Hours</span>
-						<input
-							type='time'
-							name='saturdayOpeningTime'
-							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='saturdayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
-						/>
-					</label>
-
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Sunday Hours</span>
-						<input
-							type='time'
-							name='sundayOpeningTime'
-							className='rounded-lg p-1'
-							placeholder='Opening Time'
-						/>
-						<input
-							type='time'
-							name='sundayClosingTime'
-							className='rounded-lg p-1'
-							placeholder='Closing Time'
-						/>
-					</label>
-
-					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Image</span>
+						<span className='text-white font-medium'>Image (Max: 10MB)</span>
 						<input type='file' name='file' className='rounded-lg p-1' />
 					</label>
 

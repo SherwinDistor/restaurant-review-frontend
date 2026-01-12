@@ -34,7 +34,7 @@ export default function Restaurant() {
 				</Link>
 				{decoded?.roles.startsWith('ADMIN') && (
 					<Link
-						to='/'
+						to={`/restaurant/update/${restaurant.id}`}
 						className='absolute top-5 right-5 bg-gray/70 rounded-full px-2 py-1 backdrop-blur-lg sm:top-30 sm:right-40'
 					>
 						Edit
