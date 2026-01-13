@@ -17,8 +17,6 @@ export default function Restaurant() {
 		decoded = jwtDecode(auth.jwt);
 	}
 
-	console.log(restaurant);
-
 	return (
 		<>
 			<Nav />
@@ -43,7 +41,7 @@ export default function Restaurant() {
 
 				{restaurant.photos.map((photo) => (
 					<img
-						src={`${BASE_URL}/api/v1/photo/${photo.url}`}
+						src={photo.url}
 						alt='img'
 						className='snap-start grow shrink-0 basis-full object-cover w-full h-full'
 						key={photo.id}
@@ -120,8 +118,8 @@ export default function Restaurant() {
 					</Link>
 				</div>
 			</section>
-			<section className='border-t border-white mt-6 py-2 px-3'>
-				<button>Sort</button>
+			<section className='border-t border-white mt-6 mb-20 py-2 px-3'>
+				{/* <button>Sort</button> */}
 				<div>
 					{restaurant.reviews.map((review) => {
 						const date = new Date(review.updatedAt);
@@ -131,7 +129,7 @@ export default function Restaurant() {
 						});
 
 						return (
-							<div key={review.id} className='bg-black rounded-lg p-2'>
+							<div key={review.id} className='bg-darkgray rounded-lg p-2'>
 								<div className='flex justify-between'>
 									<h2>{review.title}</h2>
 									<span>{formattedDate}</span>

@@ -19,8 +19,6 @@ export default function Login() {
 
 	useEffect(() => {
 		if (formLoginResponse && formLoginResponse?.userData) {
-			console.log('back in Login useEffect');
-
 			setAuth(formLoginResponse.userData);
 
 			navigate(formLoginResponse.redirectTo, { replace: true });
