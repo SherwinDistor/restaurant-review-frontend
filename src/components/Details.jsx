@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 export default function Details({ isOpen, setIsOpen, restaurant }) {
-	console.log(isOpen);
 	const [trans, setTrans] = useState(isOpen);
 
 	function closeDetails() {
@@ -9,6 +8,26 @@ export default function Details({ isOpen, setIsOpen, restaurant }) {
 		setTimeout(() => {
 			setIsOpen(false);
 		}, 500);
+	}
+
+	function formatTo12Hr(timeString) {
+		if (!timeString) {
+			return '';
+		}
+
+		let [hours, minutes] = timeString.split(':').map((time) => Number(time));
+		let suffix;
+
+		if (hours >= 12) {
+			suffix = 'PM';
+		} else {
+			suffix = 'AM';
+		}
+
+		hours = hours % 12 || 12;
+		const minutesString = minutes.toString().padStart(2, '0');
+
+		return `${hours}:${minutesString} ${suffix}`;
 	}
 
 	return (
@@ -31,7 +50,8 @@ export default function Details({ isOpen, setIsOpen, restaurant }) {
 							<div key={time.id} className='flex justify-between px-2'>
 								<span>{time.dayOfWeek}</span>
 								<span>
-									{time.openingTime} - {time.closingTime}
+									{formatTo12Hr(time.openingTime)} -{' '}
+									{formatTo12Hr(time.closingTime)}
 								</span>
 							</div>
 						))}
