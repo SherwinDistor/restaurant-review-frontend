@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import BASE_URL from '../loaders/baseUrl';
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import getAllRestaurants from '../loaders/getAllRestaurants';
 import registerUser from '../actions/registerUser';
 import loginUser from '../actions/loginUser';
@@ -8,6 +8,18 @@ import getRestaurant from '../loaders/getRestaurant';
 import postReviewByRestaurant from '../actions/postReviewByRestaurant';
 import createNewRestaurant from '../actions/createNewRestaurant';
 import updateRestaurant from '../actions/updateRestaurant';
+import Loading from './Loading';
+import Home from './Home;';
+import NotFound from './NotFound';
+import SignUp from './SignUp';
+import Login from './Login';
+import Search from './Search';
+import Restaurant from './Restaurant';
+import ProtectedRoute from './ProtectedRoute';
+import Profile from './Profile';
+import WriteReview from './WriteReview';
+import AddRestaurant from './AddRestaurant';
+import UpdateRestaurant from './UpdateRestaurant';
 
 export default function AppInitializer() {
 	const [isAwake, setIsAwake] = useState(false);
