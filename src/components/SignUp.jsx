@@ -10,7 +10,6 @@ export default function SignUp() {
 	const formRequestResponse = useActionData();
 
 	const firstNameRef = useRef();
-	const errorRef = useRef();
 
 	const [firstName, setFirstName] = useState('');
 
@@ -18,17 +17,19 @@ export default function SignUp() {
 
 	const [email, setEmail] = useState('');
 	const isValidEmail = EMAIL_REGEX.test(email);
-	const [emailFocus, setEmailFocus] = useState(false);
 
 	const [password, setPassword] = useState('');
 	const isValidPassword = PASSWORD_REGEX.test(password);
 	const [showPassword, setShowPassword] = useState(false);
-	const [passwordFocus, setPasswordFocus] = useState(false);
 
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const isValidConfirmPassword =
 		password === confirmPassword && confirmPassword.length > 0;
-	const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+
+	// const errorRef = useRef();
+	// const [emailFocus, setEmailFocus] = useState(false);
+	// const [passwordFocus, setPasswordFocus] = useState(false);
+	// const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
 	useEffect(() => {
 		firstNameRef.current.focus();
@@ -58,7 +59,7 @@ export default function SignUp() {
 							type='text'
 							ref={firstNameRef}
 							placeholder='First name'
-							className='px-2 py-2 rounded-lg'
+							className='px-2 py-2 rounded-lg w-48'
 							value={firstName}
 							onChange={(e) => setFirstName(e.target.value)}
 							required
@@ -74,7 +75,7 @@ export default function SignUp() {
 							name='lastName'
 							type='text'
 							placeholder='Last name'
-							className='px-2 py-2 rounded-lg'
+							className='px-2 py-2 rounded-lg w-48'
 							value={lastName}
 							onChange={(e) => setLastName(e.target.value)}
 							required
@@ -90,7 +91,7 @@ export default function SignUp() {
 							name='username'
 							type='email'
 							placeholder='Email'
-							className={`px-2 py-2 rounded-lg ${
+							className={`px-2 py-2 rounded-lg w-48 ${
 								isValidEmail
 									? 'border-2 border-green-400'
 									: 'border-2 border-red-400'
@@ -158,7 +159,7 @@ export default function SignUp() {
 							name='confirmPassword'
 							id='confirmPassword'
 							placeholder='Confirm password'
-							className={`px-2 py-2 rounded-lg ${
+							className={`px-2 py-2 rounded-lg w-48 ${
 								isValidConfirmPassword
 									? 'border-2 border-green-400'
 									: 'border-2 border-red-400'
