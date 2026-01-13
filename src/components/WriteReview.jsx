@@ -44,7 +44,17 @@ export default function WriteReview() {
 					</label>
 					<label className='flex flex-col'>
 						<span className='text-white font-medium'>Rate your experience</span>
-						<input type='number' name='rating' max={5} min={0} />
+						<select
+							name='rating'
+							id='rating'
+							className='bg-white rounded-lg px-2 py-1 w-15'
+						>
+							<option value='5'>5</option>
+							<option value='4'>4</option>
+							<option value='3'>3</option>
+							<option value='2'>2</option>
+							<option value='1'>1</option>
+						</select>
 					</label>
 					<button className='bg-white rounded-full w-30 self-center py-1'>
 						Submit
