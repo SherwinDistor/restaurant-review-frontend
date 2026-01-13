@@ -21,62 +21,94 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AddRestaurant from './components/AddRestaurant';
 import createNewRestaurant from './actions/createNewRestaurant';
 import updateRestaurant from './actions/updateRestaurant';
+import BASE_URL from './loaders/baseUrl';
+import Root from './components/Root';
+
+let isServerWarm = false;
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Home />,
-		errorElement: <NotFound />,
-		loader: getAllRestaurants,
-	},
-	{
-		path: '/signup',
-		element: <SignUp />,
-		action: registerUser,
-	},
-	{
-		path: '/login',
-		element: <Login />,
-		action: loginUser,
-	},
-	{
-		path: '/search',
-		element: <Search />,
-	},
-	{
-		path: '/restaurant/:restaurantId',
-		element: <Restaurant />,
-		loader: getRestaurant,
-	},
-	{
-		path: '/',
-		element: <ProtectedRoute allowedRoles={['USER', 'ADMIN']} />,
+		id: 'root',
+		element: <Root />,
+		loader: async () => {
+			console.log('Root loader called');
+			console.log('Is Server Warm ' + isServerWarm);
+
+			if (isServerWarm) {
+				return { isServerWarm };
+			}
+
+			try {
+				const response = await fetch(`${BASE_URL}/auth/health`);
+				if (response.ok) {
+					isServerWarm = true;
+				}
+			} catch (error) {
+				console.error('Waiting for server to boot up...', error);
+			}
+
+			console.log('Is Server Warm after fetch ' + isServerWarm);
+
+			return { isServerWarm };
+		},
 		children: [
 			{
-				path: 'profile',
-				element: <Profile />,
+				path: '/',
+				element: <Home />,
+				errorElement: <NotFound />,
+				loader: getAllRestaurants,
 			},
 			{
-				path: 'review/:restaurantId',
-				element: <WriteReview />,
-				action: postReviewByRestaurant,
-			},
-		],
-	},
-	{
-		path: '/',
-		element: <ProtectedRoute allowedRoles={['ADMIN']} />,
-		children: [
-			{
-				path: 'restaurant/add',
-				element: <AddRestaurant />,
-				action: createNewRestaurant,
+				path: '/signup',
+				element: <SignUp />,
+				action: registerUser,
 			},
 			{
-				path: 'restaurant/update/:restaurantId',
-				element: <UpdateRestaurant />,
+				path: '/login',
+				element: <Login />,
+				action: loginUser,
+			},
+			{
+				path: '/search',
+				element: <Search />,
+			},
+			{
+				path: '/restaurant/:restaurantId',
+				element: <Restaurant />,
 				loader: getRestaurant,
-				action: updateRestaurant,
+			},
+			{
+				path: '/',
+				element: <ProtectedRoute allowedRoles={['USER', 'ADMIN']} />,
+				children: [
+					{
+						path: 'profile',
+						element: <Profile />,
+					},
+					{
+						path: 'review/:restaurantId',
+						element: <WriteReview />,
+						action: postReviewByRestaurant,
+					},
+				],
+			},
+			{
+				path: '/',
+				element: <ProtectedRoute allowedRoles={['ADMIN']} />,
+				children: [
+					{
+						path: 'restaurant/add',
+						element: <AddRestaurant />,
+						action: createNewRestaurant,
+					},
+					{
+						path: 'restaurant/update/:restaurantId',
+						element: <UpdateRestaurant />,
+						loader: getRestaurant,
+						action: updateRestaurant,
+					},
+				],
 			},
 		],
 	},
