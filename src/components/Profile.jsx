@@ -1,21 +1,42 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Nav from './Nav';
 import { AuthContext } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router';
+import BASE_URL from '../loaders/baseUrl';
+import StarRating from './StarRating';
 
 export default function Profile() {
 	const { auth, setAuth } = useContext(AuthContext);
+	const [profile, setProfile] = useState();
 	let decoded;
 
 	if (auth) {
 		decoded = jwtDecode(auth.jwt);
 	}
 
-	console.log(decoded);
+	useEffect(() => {
+		async function getUserProfile() {
+			try {
+				const response = await fetch(`${BASE_URL}/api/v1/user/profile`, {
+					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${auth?.jwt}`,
+					},
+				});
+
+				const data = await response.json();
+
+				setProfile(data);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
+		getUserProfile();
+	}, [auth]);
 
 	function logoutUser() {
-		// additional logic if saving auth details in local storage
 		localStorage.removeItem('userData');
 		setAuth(null);
 	}
@@ -43,243 +64,34 @@ export default function Profile() {
 			</section>
 			<section className='flex justify-center pt-12'>
 				<div className='flex items-center gap-5'>
-					<div className='h-24 w-24 bg-white rounded-full'></div>
+					{/* <div className='h-24 w-24 bg-white rounded-full'></div> */}
 					<div>
 						<h1>
 							{auth.restaurantUserDto.firstName}{' '}
 							{auth.restaurantUserDto.lastName}
 						</h1>
-						<p>Reviews: 4</p>
+						<p className='text-center'>Reviews: {profile?.reviews.length}</p>
 					</div>
 				</div>
 			</section>
 			<section className='pt-20'>
-				<div className='flex justify-center mb-5'>
+				<div className='flex justify-center pb-5 border-b'>
 					<h1>Past Reviews</h1>
 				</div>
-				<div className='mx-5 flex flex-col gap-3 h-110 overflow-auto'>
-					<div>
-						<div>
-							<div className='flex justify-between'>
-								<h1>Taco Inn</h1>
-								<p>1/22/2025</p>
+				<div className='mx-5 mt-5 flex flex-col gap-3 h-105 overflow-auto'>
+					{profile &&
+						profile.reviews.map((review) => (
+							<div>
+								<div>
+									<div className='flex justify-between'>
+										<h1>{review.title}</h1>
+										<p>1/22/2025</p>
+									</div>
+									<StarRating rating={review.rating} size='small' />
+								</div>
+								<p>{review.content}</p>
 							</div>
-							<div className='flex'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-							</div>
-						</div>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-							aspernatur maxime fugiat voluptas possimus. Sequi, veniam
-							voluptatem? Magni similique vero illo consectetur maxime,
-							pariatur, consequatur animi fugiat perspiciatis ut consequuntur?
-						</p>
-					</div>
-					<div>
-						<div>
-							<div className='flex justify-between'>
-								<h1>Taco Inn</h1>
-								<p>1/22/2025</p>
-							</div>
-							<div className='flex'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-							</div>
-						</div>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-							aspernatur maxime fugiat voluptas possimus. Sequi, veniam
-							voluptatem? Magni similique vero illo consectetur maxime,
-							pariatur, consequatur animi fugiat perspiciatis ut consequuntur?
-						</p>
-					</div>
-					<div>
-						<div>
-							<div className='flex justify-between'>
-								<h1>Taco Inn</h1>
-								<p>1/22/2025</p>
-							</div>
-							<div className='flex'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-							</div>
-						</div>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-							aspernatur maxime fugiat voluptas possimus. Sequi, veniam
-							voluptatem? Magni similique vero illo consectetur maxime,
-							pariatur, consequatur animi fugiat perspiciatis ut consequuntur?
-						</p>
-					</div>
-					<div>
-						<div>
-							<div className='flex justify-between'>
-								<h1>Taco Inn</h1>
-								<p>1/22/2025</p>
-							</div>
-							<div className='flex'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-							</div>
-						</div>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-							aspernatur maxime fugiat voluptas possimus. Sequi, veniam
-							voluptatem? Magni similique vero illo consectetur maxime,
-							pariatur, consequatur animi fugiat perspiciatis ut consequuntur?
-						</p>
-					</div>
-					<div>
-						<div>
-							<div className='flex justify-between'>
-								<h1>Taco Inn</h1>
-								<p>1/22/2025</p>
-							</div>
-							<div className='flex'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-							</div>
-						</div>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-							aspernatur maxime fugiat voluptas possimus. Sequi, veniam
-							voluptatem? Magni similique vero illo consectetur maxime,
-							pariatur, consequatur animi fugiat perspiciatis ut consequuntur?
-						</p>
-					</div>
-					<div>
-						<div>
-							<div className='flex justify-between'>
-								<h1>Taco Inn</h1>
-								<p>1/22/2025</p>
-							</div>
-							<div className='flex'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									viewBox='0 0 640 640'
-									className='fill-amber-500 h-4 w-4'
-								>
-									<path d='M341.5 45.1C337.4 37.1 329.1 32 320.1 32C311.1 32 302.8 37.1 298.7 45.1L225.1 189.3L65.2 214.7C56.3 216.1 48.9 222.4 46.1 231C43.3 239.6 45.6 249 51.9 255.4L166.3 369.9L141.1 529.8C139.7 538.7 143.4 547.7 150.7 553C158 558.3 167.6 559.1 175.7 555L320.1 481.6L464.4 555C472.4 559.1 482.1 558.3 489.4 553C496.7 547.7 500.4 538.8 499 529.8L473.7 369.9L588.1 255.4C594.5 249 596.7 239.6 593.9 231C591.1 222.4 583.8 216.1 574.8 214.7L415 189.3L341.5 45.1z' />
-								</svg>
-							</div>
-						</div>
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-							aspernatur maxime fugiat voluptas possimus. Sequi, veniam
-							voluptatem? Magni similique vero illo consectetur maxime,
-							pariatur, consequatur animi fugiat perspiciatis ut consequuntur?
-						</p>
-					</div>
+						))}
 				</div>
 			</section>
 		</>
