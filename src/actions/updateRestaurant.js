@@ -8,8 +8,6 @@ import BASE_URL from '../loaders/baseUrl';
 export default async function updateRestaurant({ request, params }) {
 	const formData = await request.formData();
 
-	console.log(formData);
-
 	const token = formData.get('token');
 
 	const address = new Address(
@@ -20,8 +18,6 @@ export default async function updateRestaurant({ request, params }) {
 		formData.get('zipCode'),
 		formData.get('country')
 	);
-
-	console.log(address);
 
 	const timeRanges = [];
 
@@ -37,8 +33,6 @@ export default async function updateRestaurant({ request, params }) {
 
 	const operatingHours = new OperatingHours(timeRanges);
 
-	console.log(operatingHours);
-
 	const restaurant = new CreateRestaurantDto(
 		formData.get('name'),
 		formData.get('cuisineType'),
@@ -47,10 +41,7 @@ export default async function updateRestaurant({ request, params }) {
 		operatingHours
 	);
 
-	console.log(restaurant);
-
 	const file = formData.get('file');
-	console.log(file);
 	const imagePayload = new FormData();
 	imagePayload.append('file', file);
 
@@ -68,7 +59,6 @@ export default async function updateRestaurant({ request, params }) {
 		);
 
 		const data = await response.json();
-		console.log(data);
 
 		await fetch(`${BASE_URL}/api/v1/photo/${data.id}`, {
 			method: 'POST',

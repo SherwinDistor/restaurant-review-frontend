@@ -5,8 +5,6 @@ import ErrorResponse from '../domain/ErrorResponse';
 export default async function loginUser({ request }) {
 	const formData = await request.formData();
 
-	console.log(formData);
-
 	const redirectTo = formData.get('redirectTo');
 
 	const loginRequest = new LoginRequest(
@@ -27,7 +25,6 @@ export default async function loginUser({ request }) {
 
 		localStorage.setItem('userData', JSON.stringify(data));
 
-		console.log(data);
 		return { userData: data, redirectTo };
 	} catch (error) {
 		console.log(error);

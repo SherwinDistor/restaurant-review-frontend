@@ -6,8 +6,6 @@ export default async function postReviewByRestaurant({ request, params }) {
 	const formData = await request.formData();
 	const token = formData.get('token');
 
-	console.log(token);
-
 	const review = new CreateReviewDto(
 		formData.get('title'),
 		formData.get('content'),

@@ -13,8 +13,6 @@ export default async function registerUser({ request }) {
 		formData.get('password')
 	);
 
-	console.log(newUser);
-
 	// User input validation
 	if (newUser.firstName.length <= 0) {
 		return new ErrorResponse('First name field cannot be empty.');
