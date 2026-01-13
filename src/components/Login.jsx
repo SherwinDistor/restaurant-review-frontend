@@ -49,7 +49,7 @@ export default function Login() {
 							name='username'
 							type='text'
 							placeholder='Username or email'
-							className='px-2 py-2 rounded-lg w-48'
+							className='px-2 py-2 rounded-lg w-full'
 						/>
 					</div>
 

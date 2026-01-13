@@ -59,7 +59,7 @@ export default function SignUp() {
 							type='text'
 							ref={firstNameRef}
 							placeholder='First name'
-							className='px-2 py-2 rounded-lg w-48'
+							className='px-2 py-2 rounded-lg w-full'
 							value={firstName}
 							onChange={(e) => setFirstName(e.target.value)}
 							required
@@ -75,7 +75,7 @@ export default function SignUp() {
 							name='lastName'
 							type='text'
 							placeholder='Last name'
-							className='px-2 py-2 rounded-lg w-48'
+							className='px-2 py-2 rounded-lg w-full'
 							value={lastName}
 							onChange={(e) => setLastName(e.target.value)}
 							required
@@ -91,7 +91,7 @@ export default function SignUp() {
 							name='username'
 							type='email'
 							placeholder='Email'
-							className={`px-2 py-2 rounded-lg w-48 ${
+							className={`px-2 py-2 rounded-lg w-full ${
 								isValidEmail
 									? 'border-2 border-green-400'
 									: 'border-2 border-red-400'
@@ -159,7 +159,7 @@ export default function SignUp() {
 							name='confirmPassword'
 							id='confirmPassword'
 							placeholder='Confirm password'
-							className={`px-2 py-2 rounded-lg w-48 ${
+							className={`px-2 py-2 rounded-lg w-full ${
 								isValidConfirmPassword
 									? 'border-2 border-green-400'
 									: 'border-2 border-red-400'
