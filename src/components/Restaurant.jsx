@@ -119,7 +119,7 @@ export default function Restaurant() {
 			</section>
 			<section className='border-t border-white mt-6 mb-20 py-2 px-3'>
 				{/* <button>Sort</button> */}
-				<div>
+				<div className='flex flex-col gap-4'>
 					{restaurant.reviews.map((review) => {
 						const date = new Date(review.updatedAt);
 						const formattedDate = date.toLocaleDateString('en-US', {
