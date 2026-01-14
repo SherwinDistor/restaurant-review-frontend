@@ -47,7 +47,7 @@ export default function SignUp() {
 				<Form
 					method='post'
 					action='/signup'
-					className='flex flex-col text-black gap-5'
+					className='flex flex-col text-black gap-5 sm:mt-20'
 				>
 					<div>
 						<label htmlFor='firstName' className='hidden'>
