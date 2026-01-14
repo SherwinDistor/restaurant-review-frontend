@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Nav from './Nav';
-import { AuthContext } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router';
 import BASE_URL from '../loaders/baseUrl';
 import StarRating from './StarRating';
+import useAuth from '../hooks/useAuth';
 
 export default function Profile() {
-	const { auth, setAuth } = useContext(AuthContext);
+	const { auth, setAuth } = useAuth();
 	const [profile, setProfile] = useState();
 	let decoded;
 
@@ -81,7 +81,7 @@ export default function Profile() {
 				<div className='mx-5 mt-5 flex flex-col gap-3 h-105 overflow-auto'>
 					{profile &&
 						profile.reviews.map((review) => (
-							<div>
+							<div key={review.id}>
 								<div>
 									<div className='flex justify-between'>
 										<h1>{review.title}</h1>

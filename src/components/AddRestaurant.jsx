@@ -1,11 +1,10 @@
 import { Form, Link } from 'react-router';
 import Nav from './Nav';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
 import DAY_OF_WEEK from '../domain/dayOfWeek';
+import useAuth from '../hooks/useAuth';
 
 export default function AddRestaurant() {
-	const { auth } = useContext(AuthContext);
+	const { auth } = useAuth();
 
 	return (
 		<>

@@ -1,6 +1,5 @@
 import { Link, useLoaderData } from 'react-router';
 import Nav from './Nav';
-import BASE_URL from '../loaders/baseUrl';
 
 export default function Home() {
 	const restaurantData = useLoaderData();

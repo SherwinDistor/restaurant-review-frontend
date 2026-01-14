@@ -1,11 +1,20 @@
 import { useParams, Form, Link } from 'react-router';
 import Nav from './Nav';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useState } from 'react';
+import useAuth from '../hooks/useAuth';
+
+const TITLE_REGEX = /^.{1,30}$/;
+const CONTENT_REGEX = /^[\s\S]{1,200}$/;
 
 export default function WriteReview() {
 	const params = useParams();
-	const { auth } = useContext(AuthContext);
+	const { auth } = useAuth();
+
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+
+	const isTitleValid = TITLE_REGEX.test(title);
+	const isContentValid = CONTENT_REGEX.test(content);
 
 	return (
 		<>
@@ -29,17 +38,37 @@ export default function WriteReview() {
 				>
 					<input type='hidden' name='token' value={auth?.jwt} />
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>Add a title</span>
-						<input type='text' name='title' className='rounded-lg p-1' />
+						<span className='text-white text-m'>Add a title</span>
+						<span className='text-white text-sm pb-1'>
+							(30 Character limit)
+						</span>
+						<input
+							type='text'
+							name='title'
+							className={`rounded-lg p-1 ${
+								isTitleValid
+									? 'border-2 border-green-400'
+									: 'border-2 border-red-400'
+							}`}
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+						/>
 					</label>
 					<label className='flex flex-col'>
-						<span className='text-white font-medium'>
-							Tell us about your visit
+						<span className='text-white text-m'>Tell us about your visit</span>
+						<span className='text-white text-sm pb-1'>
+							(200 Character limit)
 						</span>
 						<textarea
 							name='content'
 							rows={6}
-							className='rounded-lg p-1'
+							className={`rounded-lg p-1 ${
+								isContentValid
+									? 'border-2 border-green-400'
+									: 'border-2 border-red-400'
+							}`}
+							value={content}
+							onChange={(e) => setContent(e.target.value)}
 						></textarea>
 					</label>
 					<label className='flex flex-col'>
@@ -56,7 +85,7 @@ export default function WriteReview() {
 							<option value='1'>1</option>
 						</select>
 					</label>
-					<button className='bg-white rounded-full w-30 self-center py-1'>
+					<button className='bg-amber-500 text-white rounded-full w-30 self-center py-1'>
 						Submit
 					</button>
 				</Form>

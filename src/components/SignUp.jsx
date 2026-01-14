@@ -4,7 +4,7 @@ import Nav from './Nav';
 
 const EMAIL_REGEX =
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const PASSWORD_REGEX = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
+const PASSWORD_REGEX = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{7,})\S$/;
 
 export default function SignUp() {
 	const formRequestResponse = useActionData();
@@ -38,9 +38,9 @@ export default function SignUp() {
 	return (
 		<>
 			<Nav />
-			<section className='h-screen w-screen flex flex-col justify-center items-center'>
+			<section className='h-screen w-screen flex flex-col justify-evenly items-center'>
 				{formRequestResponse && formRequestResponse.message && (
-					<p className='absolute top-30 bg-black p-4 rounded-lg max-w-60'>
+					<p className='absolute top-30 bg-darkgray p-4 rounded-lg max-w-60'>
 						{formRequestResponse.message}
 					</p>
 				)}
@@ -185,15 +185,26 @@ export default function SignUp() {
 					>
 						Create account
 					</button>
+
+					<div className='text-white bg-darkgray rounded-lg p-2'>
+						<span>Password must contain:</span>
+						<ul className='text-xs list-disc pl-5'>
+							<li>At least one uppercase letter (A-Z)</li>
+							<li>At least one numerical digit (0-9)</li>
+							<li>Minimum length of 8 characters</li>
+						</ul>
+					</div>
 				</Form>
 
-				<span className='absolute bottom-30'>Already have and account?</span>
-				<Link
-					to='/profile'
-					className='border-2 border-amber-500 text-white rounded-full py-1 absolute bottom-20 w-[233px] text-center'
-				>
-					Sign In
-				</Link>
+				<div className='flex flex-col items-center gap-2'>
+					<span className=''>Already have and account?</span>
+					<Link
+						to='/profile'
+						className='border-2 border-amber-500 text-white rounded-full py-1 w-[233px] text-center'
+					>
+						Sign In
+					</Link>
+				</div>
 			</section>
 		</>
 	);

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Form,
 	Link,
@@ -6,11 +6,11 @@ import {
 	useLocation,
 	useNavigate,
 } from 'react-router';
-import { AuthContext } from '../context/AuthContext';
 import Nav from './Nav';
+import useAuth from '../hooks/useAuth';
 
 export default function Login() {
-	const { setAuth } = useContext(AuthContext);
+	const { setAuth } = useAuth();
 	const formLoginResponse = useActionData();
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function Login() {
 	return (
 		<>
 			<Nav />
-			<section className='h-screen w-screen flex justify-center items-center'>
+			<section className='h-screen w-screen flex flex-col justify-center items-center gap-70 pt-50'>
 				{formLoginResponse && formLoginResponse.message && (
 					<p className='absolute top-30 bg-black p-4 rounded-lg max-w-60'>
 						{formLoginResponse.message}
@@ -101,7 +101,7 @@ export default function Login() {
 
 				<Link
 					to='/signup'
-					className='border-2 border-amber-500 text-white rounded-full py-1 absolute bottom-20 w-[233px] text-center'
+					className='border-2 border-amber-500 text-white rounded-full py-1 w-[233px] text-center'
 				>
 					Create an account
 				</Link>

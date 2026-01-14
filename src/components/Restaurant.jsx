@@ -1,16 +1,15 @@
-import { Link, Outlet, useLoaderData } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 import Nav from './Nav';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import StarRating from './StarRating';
 import Details from './Details';
-import { AuthContext } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
-import BASE_URL from '../loaders/baseUrl';
+import useAuth from '../hooks/useAuth';
 
 export default function Restaurant() {
 	const restaurant = useLoaderData();
 	const [isOpen, setIsOpen] = useState(false);
-	const { auth } = useContext(AuthContext);
+	const { auth } = useAuth();
 	let decoded;
 
 	if (auth) {
@@ -130,13 +129,13 @@ export default function Restaurant() {
 
 						return (
 							<div key={review.id} className='bg-darkgray rounded-lg p-2'>
-								<div className='flex justify-between'>
+								<div className='flex justify-between items-center'>
 									<h2>{review.title}</h2>
-									<span>{formattedDate}</span>
+									<span className='text-sm'>{formattedDate}</span>
 								</div>
 								<div className='flex justify-between items-center'>
 									<StarRating rating={review.rating} size='small' />
-									<span>{review.author}</span>
+									<span className='font-bold'>{review.author}</span>
 								</div>
 								<p>{review.content}</p>
 							</div>

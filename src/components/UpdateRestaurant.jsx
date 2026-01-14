@@ -1,12 +1,11 @@
 import { Form, Link, useLoaderData } from 'react-router';
 import Nav from './Nav';
 import DAY_OF_WEEK from '../domain/dayOfWeek';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import useAuth from '../hooks/useAuth';
 
 export default function UpdateRestaurant() {
 	const restaurant = useLoaderData();
-	const { auth } = useContext(AuthContext);
+	const { auth } = useAuth();
 
 	return (
 		<>

@@ -10,8 +10,12 @@ export default function Root() {
 		async function wakeServer() {
 			try {
 				const response = await fetch(`${BASE_URL}/auth/health`);
+				console.log('Health check');
+
 				if (response.ok) {
-					setIsServerRunning(true);
+					setTimeout(() => {
+						setIsServerRunning(true);
+					}, 5000);
 				}
 			} catch (error) {
 				console.error(error);
